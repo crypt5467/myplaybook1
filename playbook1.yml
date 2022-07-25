@@ -1,0 +1,33 @@
+--- 
+- 
+  become: true
+  hosts: TEST_SERVERS
+  name: "Test connection to my Test servers"
+  tasks: 
+    - 
+      name: "Ping my servers"
+      ping: ~
+    - 
+      name: "Stop and disable Apache web server"
+      service: 
+        enabled: false
+        name: apache2
+        state: stopped
+    - 
+      apt: "name=apache2 update_cache=yes state=absent"
+      name: "Deinstall Apache web server"
+    - 
+      debug: 
+        var: ansible_distribution
+      name: "Name remote server OS"
+    - 
+      name: "Rebooot my servers"
+      shell: "sleep 3 && reboot now async:1 pool:0"
+    - 
+      delegate: "127.0.0.1"
+      name: "wait  till my server will come online"
+      wait_for: 
+        delay: 30
+        host: "{{ ansible_hosthame }}"
+        state: started
+        timeout: 60
