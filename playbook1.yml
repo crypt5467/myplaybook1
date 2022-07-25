@@ -5,7 +5,7 @@
   name: "Test connection to my Test servers"
   tasks: 
     - 
-      name: "Ping my servers"
+      name: "Ping my linux servers"
       ping: ~
     - 
       name: "Stop and disable Apache web server"
